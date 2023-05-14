@@ -1,3 +1,5 @@
+"use client";
+
 import Container from "../Container";
 import { AiFillHome } from "react-icons/ai";
 import {
@@ -7,8 +9,32 @@ import {
   BsFillPersonFill,
 } from "react-icons/bs";
 import NavbarItem from "./NavbarItem";
+import { usePathname, useSearchParams } from "next/navigation";
 
+const NavbarItems = [
+  {
+    label: "home",
+    icon: AiFillHome,
+  },
+  {
+    label: "user",
+    icon: BsFillPersonFill,
+  },
+  {
+    label: "discover",
+    icon: BsAirplaneFill,
+  },
+  {
+    label: "trips",
+    icon: BsFillMapFill,
+  },
+  {
+    label: "favorite",
+    icon: BsFillHeartFill,
+  },
+];
 const Navbar = () => {
+  const pathname = usePathname();
   return (
     <div className="fixed w-full bg-white z-10 shadow-sm bottom-0">
       <div
@@ -28,11 +54,15 @@ const Navbar = () => {
             md:gap-0
           "
           >
-            <NavbarItem icon={AiFillHome} />
-            <NavbarItem icon={BsFillPersonFill} />
-            <NavbarItem icon={BsAirplaneFill} main />
-            <NavbarItem icon={BsFillMapFill} />
-            <NavbarItem icon={BsFillHeartFill} />
+            {NavbarItems.map((item) => {
+              return (
+                <NavbarItem
+                  icon={item.icon}
+                  main={pathname === "/" + item.label}
+                  key={item.label}
+                />
+              );
+            })}
           </div>
         </Container>
       </div>
