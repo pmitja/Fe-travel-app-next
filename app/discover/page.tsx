@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Button from "../components/Button";
 import Navbar from "../components/navbar/Navbar";
+import WizardModal from "../components/modals/WizardModal";
 
 const Discover = () => {
   return (
@@ -23,6 +24,7 @@ const Discover = () => {
         <Button>Discover my adventure</Button>
       </div>
       <Navbar />
+      <WizardModal />
     </div>
   );
 };
