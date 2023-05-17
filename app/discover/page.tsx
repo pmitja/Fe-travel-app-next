@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "../components/Button";
 import Navbar from "../components/navbar/Navbar";
 import WizardModal from "../components/modals/WizardModal";
+import { DiscoverButton } from "../components/DiscoverButton";
 
 const Discover = () => {
   return (
@@ -21,7 +22,7 @@ const Discover = () => {
         </div>
       </div>
       <div className="w-full flex justify-center translate-y-[-17.5px]">
-        <Button>Discover my adventure</Button>
+        <DiscoverButton />
       </div>
       <Navbar />
       <WizardModal />
