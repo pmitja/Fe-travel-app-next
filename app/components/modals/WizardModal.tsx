@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import DesitnationTypeCard from "../DestinationTypeCard";
 import Modal from "./Modal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Input from "../inputs/Input";
+import useWizardModal from "@/app/hooks/useWizardModal";
 
 export const destinationTypes = [
   {
@@ -70,7 +72,10 @@ enum STEPS {
 }
 
 const WizardModal = () => {
+  const wizardModal = useWizardModal();
+
   const [step, setStep] = useState(STEPS.TYPE);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -100,6 +105,14 @@ const WizardModal = () => {
     if (step !== STEPS.INFO) {
       return onNext();
     }
+  };
+
+  const setCustomValue = (id: string, value: any) => {
+    setValue(id, value, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
   };
 
   const actionLabel = useMemo(() => {
@@ -170,16 +183,72 @@ const WizardModal = () => {
     );
   }
 
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <div
+          className="
+            grid 
+            grid-cols-1 
+            gap-3
+            max-h-[70vh]
+            overflow-y-auto
+          "
+        >
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="date"
+              label="Dates"
+              type="text"
+            />
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="budget"
+              label="Set a budget"
+              type="text"
+            />
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="style"
+              label="Set a travel style"
+              type="text"
+            />
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="start_point"
+              label="Set a starting point"
+              type="text"
+            />
+          </form>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Modal
-      disabled={false}
-      isOpen={true}
+      disabled={isLoading}
+      isOpen={wizardModal.isOpen}
       title="What do you love most about traveling ?"
       actionLabel={actionLabel}
       secondaryActionLabel={secondaryActionLabel}
       secondaryAction={step === STEPS.TYPE ? undefined : onBack}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
+      onClose={wizardModal.onClose}
     />
   );
 };

@@ -7,7 +7,7 @@ import Button from "../Button";
 
 interface ModalProps {
   isOpen?: boolean;
-  onClose?: () => void;
+  onClose: () => void;
   onSubmit: () => void;
   title?: string;
   body?: React.ReactElement;
@@ -32,20 +32,20 @@ const Modal: React.FC<ModalProps> = ({
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
-  // useEffect(() => {
-  //   setShowModal(isOpen);
-  // }, [isOpen]);
+  useEffect(() => {
+    setShowModal(isOpen);
+  }, [isOpen]);
 
-  // const handleClose = useCallback(() => {
-  //   if (disabled) {
-  //     return;
-  //   }
+  const handleClose = useCallback(() => {
+    if (disabled) {
+      return;
+    }
 
-  //   setShowModal(false);
-  //   setTimeout(() => {
-  //     onClose();
-  //   }, 300);
-  // }, [onClose, disabled]);
+    setShowModal(false);
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  }, [onClose, disabled]);
 
   const handleSubmit = useCallback(() => {
     if (disabled) {
@@ -146,7 +146,7 @@ const Modal: React.FC<ModalProps> = ({
                     absolute
                     right-9
                   "
-                  // onClick={handleClose}
+                  onClick={handleClose}
                 >
                   <IoMdClose size={18} />
                 </button>
