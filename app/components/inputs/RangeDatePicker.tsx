@@ -9,7 +9,8 @@ interface RangeDatePickerProps {
   disabled?: boolean;
   label: string;
   id: string;
-  onChange: (value: string) => void;
+  onChange: (value: string, days: number) => void;
+  required?: boolean;
 }
 
 const RangeDatePicker = ({
@@ -19,7 +20,12 @@ const RangeDatePicker = ({
   errors,
   register,
   onChange,
+  required,
 }: RangeDatePickerProps) => {
+  let dates: string[] = [];
+  let arr: any[] = [];
+  let dif: number;
+
   return (
     <div>
       <label
@@ -36,6 +42,7 @@ const RangeDatePicker = ({
       </label>
       <div className="mt-2">
         <RangePicker
+          {...register(id, { required })}
           size={"large"}
           format={"DD MMM YYYY"}
           className="
@@ -56,13 +63,15 @@ const RangeDatePicker = ({
             sm:leading-6
           "
           onChange={(event) => {
-            let dates: string[] = [];
             event?.map((date) => {
+              console.log(date);
+              arr.push(date);
               if (date) {
                 return dates.push(date?.format("DD MMM YYYY"));
               }
             });
-            onChange(dates.join(" "));
+            dif = arr[1].diff(arr[0], "day");
+            onChange(dates.join(" "), dif);
           }}
         />
       </div>

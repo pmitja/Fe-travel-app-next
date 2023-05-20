@@ -8,14 +8,16 @@ interface DesitnationTypeCardProps {
   label: string;
   srcImage: string;
   onChange: (value: string) => void;
+  selected?: boolean;
 }
 
 const DesitnationTypeCard = ({
   label,
   srcImage,
   onChange,
+  selected = false,
 }: DesitnationTypeCardProps) => {
-  const [isSelected, setIsSelected] = useState(false);
+  const [isSelected, setIsSelected] = useState(selected);
   return (
     <div
       className="relative h-auto cursor-pointer m-1 shadow-md"

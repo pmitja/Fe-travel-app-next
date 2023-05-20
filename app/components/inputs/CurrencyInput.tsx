@@ -9,6 +9,7 @@ interface CurrencyInputProps {
   id: string;
   prefix: string;
   onChange: (value: string) => void;
+  required?: boolean;
 }
 
 const CurrencyInput = ({
@@ -19,6 +20,7 @@ const CurrencyInput = ({
   register,
   prefix,
   onChange,
+  required,
 }: CurrencyInputProps) => {
   return (
     <div>
@@ -36,6 +38,7 @@ const CurrencyInput = ({
       </label>
       <div className="mt-2">
         <InputNumber
+          {...register("budgetWithPrefix", { required })}
           formatter={(value) =>
             `${prefix} ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
           }
@@ -47,7 +50,9 @@ const CurrencyInput = ({
             focus:ring-inset 
             focus:ring-sky-600
           "
-          onChange={(event) => onChange("" + event)}
+          onChange={(event) => {
+            onChange("" + event);
+          }}
         />
       </div>
     </div>

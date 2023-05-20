@@ -89,21 +89,25 @@ const WizardModal = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      type: "",
-      continent: "",
-      date: "",
       budget: "",
+      duration: "",
+      travelType: "",
+      travelGroup: "",
+      startingPoint: "",
+      continent: "",
+      timePeriod: "",
       style: "",
-      start: "",
+      preferences: "",
     },
   });
 
-  const type = watch("type");
+  const type = watch("travelType");
+  const start = watch("startingPoint");
   const continent = watch("continent");
-  const date = watch("date");
-  const budget = watch("budget");
+  const date = watch("timePeriod");
   const style = watch("style");
-  const start = watch("start");
+  const duration = watch("duration");
+  const preferences = watch("preferences");
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -118,7 +122,15 @@ const WizardModal = () => {
       return onNext();
     }
     console.log({
-      ...data,
+      budget: data.budget,
+      duration: data.duration,
+      travelType: data.travelType,
+      travelGroup: data.travelGroup,
+      startingPoint: data.startingPoint,
+      continent: data.continent,
+      timePeriod: data.timePeriod,
+      style: data.style,
+      preferences: data.preferences,
     });
   };
 
@@ -164,7 +176,7 @@ const WizardModal = () => {
             <DesitnationTypeCard
               label={type.label}
               srcImage={`/images/${type.label}.jpg`}
-              onChange={(type) => setCustomValue("type", type)}
+              onChange={(type) => setCustomValue("travelType", type)}
               key={type.label}
             />
           );
@@ -216,11 +228,15 @@ const WizardModal = () => {
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
             <RangeDatePicker
               label="Dates"
-              id="date"
+              id="timePeriod"
               disabled={isLoading}
               register={register}
               errors={errors}
-              onChange={(date) => setCustomValue("date", date)}
+              required
+              onChange={(date, days) => {
+                setCustomValue("timePeriod", date);
+                setCustomValue("duration", "" + days);
+              }}
             />
             <CurrencyInput
               label="Set a budget"
@@ -229,7 +245,10 @@ const WizardModal = () => {
               register={register}
               errors={errors}
               prefix="€"
-              onChange={(budget) => setCustomValue("budget", budget)}
+              required
+              onChange={(budget) => {
+                setCustomValue("budget", budget);
+              }}
             />
             <SelectWithSearch
               label="Set a travel style"
@@ -237,6 +256,7 @@ const WizardModal = () => {
               disabled={isLoading}
               register={register}
               errors={errors}
+              required
               onChange={(style) => setCustomValue("style", style)}
               options={[
                 {
@@ -258,10 +278,18 @@ const WizardModal = () => {
               register={register}
               errors={errors}
               required
-              id="start"
+              id="startingPoint"
               label="Set a starting point"
               type="text"
-              onChange={(start) => setCustomValue("start", start)}
+            />
+            <Input
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              required
+              id="preferences"
+              label="Set a preferences"
+              type="text"
             />
           </form>
         </div>
