@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Button from "../components/Button";
 import Navbar from "../components/navbar/Navbar";
 import WizardModal from "../components/modals/WizardModal";
 import { DiscoverButton } from "../components/DiscoverButton";

@@ -11,6 +11,7 @@ interface InputProps {
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   disabled?: boolean;
+  onChange?: (value: string) => void;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,6 +22,7 @@ const Input: React.FC<InputProps> = ({
   errors,
   type = "text",
   disabled,
+  onChange,
 }) => {
   return (
     <div>
@@ -65,6 +67,9 @@ const Input: React.FC<InputProps> = ({
             errors[id] && "focus:ring-rose-500",
             disabled && "opacity-50 cursor-default"
           )}
+          onChange={(event) => {
+            onChange ? onChange(event.target.value) : null;
+          }}
         />
       </div>
     </div>

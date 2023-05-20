@@ -6,6 +6,9 @@ import Modal from "./Modal";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import Input from "../inputs/Input";
 import useWizardModal from "@/app/hooks/useWizardModal";
+import RangeDatePicker from "../inputs/RangeDatePicker";
+import CurrencyInput from "../inputs/CurrencyInput";
+import SelectWithSearch from "../inputs/SelectWithSearch";
 
 export const destinationTypes = [
   {
@@ -86,12 +89,21 @@ const WizardModal = () => {
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
-      types: [],
+      type: "",
       continent: "",
+      date: "",
+      budget: "",
+      style: "",
+      start: "",
     },
   });
 
+  const type = watch("type");
   const continent = watch("continent");
+  const date = watch("date");
+  const budget = watch("budget");
+  const style = watch("style");
+  const start = watch("start");
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -105,9 +117,13 @@ const WizardModal = () => {
     if (step !== STEPS.INFO) {
       return onNext();
     }
+    console.log({
+      ...data,
+    });
   };
 
   const setCustomValue = (id: string, value: any) => {
+    console.log(id, value);
     setValue(id, value, {
       shouldDirty: true,
       shouldTouch: true,
@@ -148,6 +164,7 @@ const WizardModal = () => {
             <DesitnationTypeCard
               label={type.label}
               srcImage={`/images/${type.label}.jpg`}
+              onChange={(type) => setCustomValue("type", type)}
               key={type.label}
             />
           );
@@ -174,6 +191,7 @@ const WizardModal = () => {
               <DesitnationTypeCard
                 label={type.label}
                 srcImage={type.url}
+                onChange={(continent) => setCustomValue("continent", continent)}
                 key={type.label}
               />
             );
@@ -196,41 +214,54 @@ const WizardModal = () => {
           "
         >
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-            <Input
-              disabled={isLoading}
-              register={register}
-              errors={errors}
-              required
-              id="date"
+            <RangeDatePicker
               label="Dates"
-              type="text"
-            />
-            <Input
+              id="date"
               disabled={isLoading}
               register={register}
               errors={errors}
-              required
-              id="budget"
+              onChange={(date) => setCustomValue("date", date)}
+            />
+            <CurrencyInput
               label="Set a budget"
-              type="text"
-            />
-            <Input
+              id="budget"
               disabled={isLoading}
               register={register}
               errors={errors}
-              required
-              id="style"
+              prefix="€"
+              onChange={(budget) => setCustomValue("budget", budget)}
+            />
+            <SelectWithSearch
               label="Set a travel style"
-              type="text"
+              id="style"
+              disabled={isLoading}
+              register={register}
+              errors={errors}
+              onChange={(style) => setCustomValue("style", style)}
+              options={[
+                {
+                  value: "1",
+                  label: "Budget",
+                },
+                {
+                  value: "2",
+                  label: "Luxury",
+                },
+                {
+                  value: "3",
+                  label: "Active",
+                },
+              ]}
             />
             <Input
               disabled={isLoading}
               register={register}
               errors={errors}
               required
-              id="start_point"
+              id="start"
               label="Set a starting point"
               type="text"
+              onChange={(start) => setCustomValue("start", start)}
             />
           </form>
         </div>

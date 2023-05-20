@@ -7,15 +7,20 @@ import { useState } from "react";
 interface DesitnationTypeCardProps {
   label: string;
   srcImage: string;
+  onChange: (value: string) => void;
 }
 
-const DesitnationTypeCard = ({ label, srcImage }: DesitnationTypeCardProps) => {
+const DesitnationTypeCard = ({
+  label,
+  srcImage,
+  onChange,
+}: DesitnationTypeCardProps) => {
   const [isSelected, setIsSelected] = useState(false);
   return (
     <div
       className="relative h-auto cursor-pointer m-1 shadow-md"
       onClick={() => {
-        console.log("clicked");
+        onChange(label);
         setIsSelected(!isSelected);
       }}
     >
