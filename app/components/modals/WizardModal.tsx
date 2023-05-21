@@ -121,7 +121,7 @@ const WizardModal = () => {
     if (step !== STEPS.INFO) {
       return onNext();
     }
-    console.log({
+    const body = JSON.stringify({
       budget: data.budget,
       duration: data.duration,
       travelType: data.travelType,
@@ -132,6 +132,11 @@ const WizardModal = () => {
       style: data.style,
       preferences: data.preferences,
     });
+
+    console.log(body);
+    setTimeout(() => {
+      wizardModal.onClose();
+    }, 300);
   };
 
   const setCustomValue = (id: string, value: any) => {
